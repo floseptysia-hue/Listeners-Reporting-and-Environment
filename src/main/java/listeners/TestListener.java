@@ -1,46 +1,35 @@
 package listeners;
 
-
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
-import utils.Log;
-import reports.ExtentManager;
+
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
 
 public class TestListener implements ITestListener {
 
-    @Override
-    public void onStart(ITestContext context) {
-        Log.getLogger(getClass()).info("=== TEST STARTED ===");
-    }
-
-    @Override
-    public void onFinish(ITestContext context) {
-        ExtentManager.flushReports();
-        Log.getLogger(getClass()).info("=== TEST FINISHED ===");
-    }
+    private static ExtentReports extent = ExtentManager.getInstance();
+    private static ThreadLocal<ExtentTest> testThread = new ThreadLocal<>();
 
     @Override
     public void onTestStart(ITestResult result) {
-        ExtentManager.createTest(result.getMethod().getMethodName());
-        Log.getLogger(getClass()).info("Starting test: " + result.getMethod().getMethodName());
+        ExtentTest test = extent.createTest(result.getMethod().getMethodName());
+        testThread.set(test);
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        ExtentManager.getTest().pass("Test Passed");
-        Log.getLogger(getClass()).info("Test passed: " + result.getMethod().getMethodName());
+        testThread.get().pass("Test Passed");
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
-        ExtentManager.getTest().fail("Test Failed: " + result.getThrowable());
-        Log.getLogger(getClass()).error("Test failed: " + result.getMethod().getMethodName());
+        testThread.get().fail("Test Failed: " + result.getThrowable());
     }
 
     @Override
-    public void onTestSkipped(ITestResult result) {
-        ExtentManager.getTest().skip("Test Skipped");
-        Log.getLogger(getClass()).warn("Test skipped: " + result.getMethod().getMethodName());
+    public void onFinish(ITestContext context) {
+        extent.flush();
     }
 }
