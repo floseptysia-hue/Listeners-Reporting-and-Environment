@@ -1,61 +1,52 @@
 package utils;
 
 import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.testng.annotations.DataProvider;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 
 public class ExcelUtils {
 
-    private Sheet sheet;
-
-    public ExcelUtils(String excelPath, String sheetName) {
+    public static Object[][] getExcelData(String sheetName) {
         try {
-            FileInputStream fis = new FileInputStream(excelPath);
-            Workbook workbook = new XSSFWorkbook(fis);
-            sheet = workbook.getSheet(sheetName);
+            FileInputStream fis = new FileInputStream("src/test/resources/TestData.xlsx");
+            Workbook workbook = WorkbookFactory.create(fis);
+            Sheet sheet = workbook.getSheet(sheetName);
 
-            if (sheet == null) {
-                throw new RuntimeException("Sheet '" + sheetName + "' tidak ditemukan!");
+            int rows = sheet.getLastRowNum();
+            int cols = sheet.getRow(0).getLastCellNum();
+
+            Object[][] data = new Object[rows][cols];
+
+            for (int i = 1; i <= rows; i++) {
+                Row row = sheet.getRow(i);
+                for (int j = 0; j < cols; j++) {
+                    Cell cell = row.getCell(j);
+                    data[i - 1][j] = cell == null ? "" : cell.toString();
+                }
             }
 
-        } catch (IOException e) {
-            throw new RuntimeException("Gagal membaca file Excel: " + e.getMessage());
+            return data;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
         }
     }
 
-    public int getRowCount() {
-        return sheet.getPhysicalNumberOfRows();
+    @DataProvider(name = "Login")
+    public static Object[][] loginData() {
+        return getExcelData("LoginData");
     }
 
-    public int getColumnCount() {
-        return sheet.getRow(0).getPhysicalNumberOfCells();
+    @DataProvider(name = "Search")
+    public static Object[][] searchData() {
+        return getExcelData("SearchData");
     }
 
-    public String getCellData(int rowNum, int colNum) {
-        Row row = sheet.getRow(rowNum);
-        Cell cell = row.getCell(colNum);
-
-        if (cell == null) return "";
-
-        cell.setCellType(CellType.STRING);
-        return cell.getStringCellValue();
-    }
-
-    // Convert Excel → DataProvider (Object[][])
-    public Object[][] getTestData() {
-        int rowCount = getRowCount();
-        int colCount = getColumnCount();
-
-        Object[][] data = new Object[rowCount - 1][colCount];
-
-        for (int i = 1; i < rowCount; i++) { // mulai dari row ke-1 (row ke-0 = header)
-            for (int j = 0; j < colCount; j++) {
-                data[i - 1][j] = getCellData(i, j);
-            }
-        }
-
-        return data;
+    @DataProvider(name = "Sorting")
+    public static Object[][] sortingData() {
+        return getExcelData("SortingData");
     }
 }
