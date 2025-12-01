@@ -17,14 +17,21 @@ Project ini berisi test automation yang dapat dijalankan menggunakan TestNG. Fok
 4. Menggunakan TestNG Listener
 5. Menghasilkan report automation
 
-## Project Structure
-📦 project-name
+Project Structure
+-----------------
+
+project-name/
+│
 ├── .idea/
 ├── gradle/
+│   └── wrapper/
 ├── logs/
 ├── src/
-│ ├── main/java/
-│ └── test/java/
+│   ├── main/
+│   │   └── java/
+│   └── test/
+│       └── java/
+│
 ├── test-output/
 ├── build.gradle.kts
 ├── settings.gradle.kts
