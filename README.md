@@ -19,22 +19,21 @@ Project ini berisi test automation yang dapat dijalankan menggunakan TestNG. Fok
 
 Project Structure
 -----------------
+
 project-name/
-.idea/
-gradle/
-gradle/wrapper/
-logs/
-src/
-src/main/
-src/main/java/
-src/test/
-src/test/java/
-test-output/
-build.gradle.kts
-settings.gradle.kts
-.gitignore
-
-
+├─ .idea/
+├─ gradle/
+│  └─ wrapper/
+├─ logs/
+├─ src/
+│  ├─ main/
+│  │  └─ java/
+│  └─ test/
+│     └─ java/
+├─ test-output/
+├─ build.gradle.kts
+├─ settings.gradle.kts
+└─ .gitignore
 
 ## Tech Stack
 - Java  
