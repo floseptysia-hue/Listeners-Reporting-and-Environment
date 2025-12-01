@@ -21,7 +21,7 @@ Project Structure
 -----------------
 
 project-name/
-├─ .idea/
+`├─ .idea/
 ├─ gradle/
 │  └─ wrapper/
 ├─ logs/
@@ -33,7 +33,7 @@ project-name/
 ├─ test-output/
 ├─ build.gradle.kts
 ├─ settings.gradle.kts
-└─ .gitignore
+└─ .gitignore`
 
 ## Tech Stack
 - Java  
