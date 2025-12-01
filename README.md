@@ -1,6 +1,6 @@
 # Automation Testing Project – TestNG, Log4j, Listener, and Reporting
 
-Project ini dibuat sebagai bagian dari assignment untuk membangun automation test menggunakan Java, TestNG, dan Gradle, serta mengimplementasikan:
+Project ini dibuat untuk membangun automation test menggunakan Java, TestNG, dan Gradle, serta mengimplementasikan:
 
 - Log4j untuk logging
 - TestNG Listener
